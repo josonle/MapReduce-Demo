@@ -1,10 +1,24 @@
-[TOC]
+## 目录
+
+- [MapReduce编程实例](#MapReduce编程实例)
+	+ [1.**自定义对象序列化**](#1.**自定义对象序列化**)
+	+ [2. 数据去重](#2. 数据去重)
+	+ [3.数据排序、二次排序](#3.数据排序、二次排序)
+	+ [4.自定义分区](#4.自定义分区)
+	+ [5.计算出每组订单中金额最大的记录](#5.计算出每组订单中金额最大的记录)
+	+ [6.合并多个小文件 【多文件输入输出、及不同输入输出格式化类型】 ](#6.合并多个小文件 【多文件输入输出、及不同输入输出格式化类型】)
+	+ [7.分组输出到多个文件 【多文件输入输出、及不同输入输出格式化类型】](#7.分组输出到多个文件 【多文件输入输出、及不同输入输出格式化类型】)
+	+ [8.join操作](#8.join操作)
+	+ [9.**计算出用户间的共同好友**](#9.**计算出用户间的共同好友**)
+- [MapReduce理论基础](#MapReduce理论基础)
+- [Hadoop、Spark学习路线及资源收纳](#Hadoop、Spark学习路线及资源收纳)
+- [MapReduce实战系统学习流程](#MapReduce实战系统学习流程)
 
 ## MapReduce编程实例
 
 ### 1.**自定义对象序列化** 
 
-
+- [【源码 FlowStatistics.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/FlowStatistics.java)
 
 #### 需求分析
 
@@ -147,7 +161,7 @@ public static class FlowWritableMapper extends Mapper<Object, Text, Text, FlowWr
 具体见代码
 ### 2. 数据去重
 
-
+- [【源码 DateDistinct.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/ssdut/training/mapreduce/datecount/DateDistinct.java)
 
 #### 需求分析
 
@@ -194,6 +208,10 @@ public static class DateDistinctReducer extends Reducer<Text,NullWritable,Text,N
 
 
 ### 3.数据排序、二次排序
+
+- [源码 升序排序 DateSortAsc.java](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/DateSortAsc.java)
+- [【源码 降序排序 DateSortDesc.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/DateSortDesc.java)
+- [【源码 二次排序 FlowSort.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/FlowSort.java)
 
 #### 需求分析
 
@@ -383,6 +401,8 @@ public static class MySortKey implements WritableComparable<MySortKey> {
 
 ### 4.自定义分区
 
+- [【源码 FlowPartition.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/FlowPartition.java)
+
 #### 需求分析
 
 还是以上个例子的手机用户流量日志为例，在上个例子的统计需要基础上添加一个新需求：按省份统计，不同省份的手机号放到不同的文件里。
@@ -431,6 +451,8 @@ job.setNumReduceTasks(4);
 增加ReduceTask数量可看到生成的文件数也增加了，不过文件内容为空
 
 ### 5.计算出每组订单中金额最大的记录 
+
+- [【源码 GroupMax.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/GroupMax.java)
 
 #### 需求分析
 
@@ -572,7 +594,7 @@ Reduce端输入k-v类似下表：
 
 
 
-### 7.**分组输出到多个文件** 【多文件输入输出、及不同输入输出格式化类型】 
+### 7.分组输出到多个文件 【多文件输入输出、及不同输入输出格式化类型】 
 
 #### 需求分析
 
@@ -580,7 +602,7 @@ Reduce端输入k-v类似下表：
 
 需要把相同订单id的记录放在一个文件中，并以订单id命名。
 
-### 8.**join操作** 
+### 8.join操作
 
 #### 需求分析
 
@@ -656,19 +678,23 @@ from t_order o join t_product p on o.pid = p.id
 
 ### 词频统计
 
-
+- [【源码 WordCount.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapReduceTest/wordCount/WordCount.java)
 
 ### 数据去重
 
-
+- [【源码 DateDistinct.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/ssdut/training/mapreduce/datecount/DateDistinct.java)
 
 ### 数据排序
 
-
+- [源码 升序排序 DateSortAsc.java](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/DateSortAsc.java)
+- [【源码 降序排序 DateSortDesc.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/DateSortDesc.java)
+- [【源码 二次排序 FlowSort.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/FlowSort.java)
 
 ### 求平均值、中位数、标准差、最大/小值、计数
 
-
+- [【源码 求中位数 标准差】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/medianstddev)
+- [【源码 求最大/小值 计数统计】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/minmaxcount)
+- [【源码 求平均值】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/gradesAverage)
 
 ### 分组、分区
 
@@ -676,11 +702,13 @@ from t_order o join t_product p on o.pid = p.id
 
 ### 数据输入输出格式化
 
-
+- [【源码 InputOutputFormatTest】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/InputOutputFormatTest)，这个是输入不同路径下的CSV、TXT文件并分区输出到不同文件中
+- [【源码 inputformat】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/inputformat)
 
 ### 多文件输入、输出
 
-
+- [【源码 inputformat】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/inputformat)
+- [【源码 output】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/output)
 
 ### 单表关联
 
