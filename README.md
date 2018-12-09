@@ -609,7 +609,48 @@ Reduce端输入k-v类似下表：
 
 ![](http://dbaplus.cn/uploadfile/2017/0608/20170608112217594.jpg)
 
+![](./images/简单模型.jpg)
 
+如图，MapReduce有一种简单模型，仅仅只有Mapper。我想初学者都可能遇到过吧，当Mapper输出k-v类型同Reducer输入k-v不同类型时，Reducer不会执行。
+
+其次，是输入和输出数据如何格式化？
+
+输出很简单，因为最后是合并成一个文件，直接以SequenceFileOutputFormat格式化类写入即可
+
+>  SequenceFileOutputFormat 的输出是一个二进制顺
+> 序文件
+
+输入要自定义格式化类，具体过程可以参考我之前写过的一篇文章:[【MapReduce详解及源码解析（一）】——分片输入、Mapper及Map端Shuffle过程](https://blog.csdn.net/lzw2016/article/details/84779254) ，本来是需要实现`InputFormat`接口的`getSplits` 和 `createRecordReader`方法，前者是逻辑上获取切片，后者是将分片转化为键值对形式。
+
+但是这里我们是合并**小文件**，没必要切片，直接将文件对象视为一个分片，键值对以文件名为key，文件对象为value。这里自定义MyInputFormat类继承自InputFormat的实现类FileInputFormat类
+
+```java
+public class MyInputFormat extends FileInputFormat<NullWritable, BytesWritable>{
+	
+	@Override
+	protected boolean isSplitable(JobContext context, Path filename) {
+		// TODO 因为是合并小文件，设置文件不可分割，k-v的v就是文件对象
+        // 设置不可分，会跳过getSplits方法中切分逻辑
+		return false;
+	}
+
+	@Override
+	public RecordReader<NullWritable, BytesWritable> createRecordReader(InputSplit split, TaskAttemptContext context)
+			throws IOException, InterruptedException {
+		// TODO Auto-generated method stub
+		MyRecordReader myRecordReader = new MyRecordReader();
+//		myRecordReader
+		return myRecordReader;
+	}
+
+}
+```
+
+然后，你在查看源码时能够发现，createRecordReader方法返回值类型是`RecordReader<KEYIN, VALUEIN>`，该类型定义了如何获取当前Key-value，如何生成Key-Value的三个核心方法`getCurrentKey()`,`getCurrentValue()`,`nextKeyValue()`
+
+所以你又要定义自己的MyRecordReader类，其继承的RecordReader类有`initialize`（初始化RecordReader）、`getCurrentKey()`,`getCurrentValue()`,`nextKeyValue()`，`close`（关闭RecordReader）
+
+具体的代码你可以看我源码文件
 
 #### 7.分组输出到多个文件【多文件输入输出、及不同输入输出格式化类型】 
 
@@ -737,11 +778,85 @@ from t_order o join t_product p on o.pid = p.id
 
 ### 倒排索引
 
+索引（index）作为一种具备各种优势的数据结构，被大量应用在数据检索领域
 
+索引的优点
+
+- 通过对关键字段排序，加快数据的检索速度
+- 保证每一行数据的唯一性
+
+![1544359307871](./images/index.png)
+
+![1544359417702](./images/reverseindex.jpg)
+
+#### 需求
+
+对于给定的文档，确定每个单词存在于某个文档，同时在文档中出现的次数
+
+#### 思路解答
+
+- Map端对文件统计每个单词出现的次数，输出类似<{hadoop,file1},2>
+- Map端输出前要先进行Combine过程，最终输出类似< hadoop, file1:2>
+- Reduce端继续对相同单词进行合并，最终输出类似<hadoop, file1:2 file2:5>
 
 ### TopN
 
-- [【源码 求解Top10】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/topten)
+- [【源码 求解TopN】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/topten)
+
+数据文件类似如下：
+
+```
+t001 2067
+t002 2055
+t003 109
+t004 1200
+t005 3368
+t006 251
+t001 3067
+t002 255
+t003 19
+t004 2000
+t005 368
+t006 2512
+```
+
+随便写的，每一行以空格隔开，查找后面数之的TopN
+
+#### 思路解答
+
+就是每一个Map Task任务要求其只输出TopN数据，这里借助TreeMap自动排序的特性【 **将数字作为排序键** 】，保证TopN。然后是Reduce中再次求解TopN即可
+
+**注意：** 在main函数中要设置ReduceTask数量为1，保证最终的TopN
+
+```java
+// Mapper中实现的map方法如下
+	private TreeMap<Integer, Text> visittimesMap = new TreeMap<Integer, Text>();	//TreeMap是有序KV集合
+
+	@Override
+	public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+		if (value == null) {
+			return;
+		}
+		String[] strs = value.toString().split(" ");
+		String tId = strs[0];
+		String tVisittimes = strs[1];
+		if (tId == null || tVisittimes == null) {
+			return;
+		}
+		visittimesMap.put(Integer.parseInt(tVisittimes), new Text(value));	//将访问次数（KEY）和行记录（VALUE）放入TreeMap中自动排序
+		if (visittimesMap.size() > 5) {	//如果TreeMap中元素超过N个，将第一个（KEY最小的）元素删除
+			visittimesMap.remove(visittimesMap.firstKey());
+		}
+	}
+	@Override
+	protected void cleanup(Context context) throws IOException, InterruptedException {
+		for (Text t : visittimesMap.values()) {
+			context.write(NullWritable.get(), t);	//在clean()中完成Map输出
+		}
+	}
+```
+
+
 
 ### PeopleRank算法实现
 

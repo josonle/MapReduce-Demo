@@ -1,4 +1,4 @@
-package ssdut.training.mapreduce.inverted;
+package InvertedIndex;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
