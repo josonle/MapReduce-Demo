@@ -1,22 +1,37 @@
 ## 目录
 
 - [MapReduce编程实例](#MapReduce编程实例)
-	+ [1.**自定义对象序列化**](#1.**自定义对象序列化**)
-	+ [2. 数据去重](#2. 数据去重)
+	+ [1.自定义对象序列化](#1.自定义对象序列化)
+	+ [2.数据去重](#2.数据去重)
 	+ [3.数据排序、二次排序](#3.数据排序、二次排序)
 	+ [4.自定义分区](#4.自定义分区)
 	+ [5.计算出每组订单中金额最大的记录](#5.计算出每组订单中金额最大的记录)
-	+ [6.合并多个小文件 【多文件输入输出、及不同输入输出格式化类型】 ](#6.合并多个小文件 【多文件输入输出、及不同输入输出格式化类型】)
-	+ [7.分组输出到多个文件 【多文件输入输出、及不同输入输出格式化类型】](#7.分组输出到多个文件 【多文件输入输出、及不同输入输出格式化类型】)
+	+ [多文件输入输出、及不同输入输出格式化类型](#多文件输入输出、及不同输入输出格式化类型)
+		+ [6.合并多个小文件](#6.合并多个小文件（多文件输入输出、及不同输入输出格式化类型）)
+		+ [7.分组输出到多个文件](#7.分组输出到多个文件【多文件输入输出、及不同输入输出格式化类型】)
 	+ [8.join操作](#8.join操作)
-	+ [9.**计算出用户间的共同好友**](#9.**计算出用户间的共同好友**)
+	+ [9.计算出用户间的共同好友](#9.**计算出用户间的共同好友**)
 - [MapReduce理论基础](#MapReduce理论基础)
 - [Hadoop、Spark学习路线及资源收纳](#Hadoop、Spark学习路线及资源收纳)
 - [MapReduce实战系统学习流程](#MapReduce实战系统学习流程)
+	+ [词频统计](#词频统计)
+	+ [数据去重](#数据去重)
+	+ [数据排序](#数据排序)
+	+ [求平均值、中位数、标准差、最大/小值、计数](#求平均值、中位数、标准差、最大/小值、计数)
+	+ [分组、分区](#分组、分区)
+	+ [数据输入输出格式化](#数据输入输出格式化)
+	+ [多文件输入、输出](#多文件输入、输出)
+	+ [多文件输入、输出](#多文件输入、输出)
+	+ [单表关联](#单表关联)
+	+ [多表关联](#多表关联)
+	+ [倒排索引](#倒排索引)
+	+ [TopN](#TopN)
+	+ [PeopleRank算法实现](#PeopleRank算法实现)
+	+ [推荐系统——协同过滤算法实现](#推荐系统——协同过滤算法实现)
 
 ## MapReduce编程实例
 
-### 1.**自定义对象序列化** 
+### 1.自定义对象序列化
 
 - [【源码 FlowStatistics.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/mapreduceProgram/FlowStatistics.java)
 
@@ -159,7 +174,7 @@ public static class FlowWritableMapper extends Mapper<Object, Text, Text, FlowWr
 
 **注意：** 要根据具体情况在job中设置Mapper、Reducer类及输出的key、value类型
 具体见代码
-### 2. 数据去重
+### 2.数据去重
 
 - [【源码 DateDistinct.java】](https://github.com/josonle/MapReduce-Demo/blob/master/src/main/java/ssdut/training/mapreduce/datecount/DateDistinct.java)
 
@@ -579,8 +594,8 @@ Reduce端输入k-v类似下表：
 **注意：** main函数中要另外设置自定义的分组类 `job.setGroupingComparatorClass(GroupComparator.class);`
 
 
-
-### 6.合并多个小文件 【多文件输入输出、及不同输入输出格式化类型】 
+### 多文件输入输出、及不同输入输出格式化类型
+#### 6.合并多个小文件（多文件输入输出、及不同输入输出格式化类型） 
 
 #### 需求分析
 
@@ -594,7 +609,7 @@ Reduce端输入k-v类似下表：
 
 
 
-### 7.分组输出到多个文件 【多文件输入输出、及不同输入输出格式化类型】 
+#### 7.分组输出到多个文件【多文件输入输出、及不同输入输出格式化类型】 
 
 #### 需求分析
 
@@ -724,11 +739,13 @@ from t_order o join t_product p on o.pid = p.id
 
 ### TopN
 
-
+- [【源码 求解Top10】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/topten)
 
 ### PeopleRank算法实现
 
-
+- [【源码 peoplerank】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/peoplerank)
 
 ### 推荐系统——协同过滤算法实现
+
+- [【源码 ItemCF算法 】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/itemcf)
 
