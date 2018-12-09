@@ -2,6 +2,12 @@
 
 不知道为什么GitHub中好像对目录索引支持不够好，下文目录中有的锚点不能跳转，我也没办法。这里我将下文放到了我CSDN的博客上，可以跳转目录，看起来也方便美观一点——[大数据之Hadoop学习——动手实战学习MapReduce编程实例](https://blog.csdn.net/lzw2016/article/details/84928495) 
 
+这里放一个我学习MapReduce的编程实例项目吧，本来是想把这些分开写成多篇文章的，能够详细叙述我学习过程中感想。但无奈，时间不够，只好在Github上创建了该项目，在代码中由较为详细的注释，我想也足够了吧。
+[josonle/MapReduce-Demo](https://github.com/josonle/MapReduce-Demo)
+该项目有些题目是参考了网上几篇博客，但代码实现是本人实现的。其次，所谓的MapReduce学习流程是参照老师上课所讲的PPT上的流程【某985大数据课程PPT】，我想老师以这样的流程授课肯定是有道理的。项目中也放了老师提供的几个参考Demo文件。
+
+该项目还在更新中，有些代码还没实现，慢慢来吧。
+
 ***
 
 ## 目录
@@ -604,6 +610,8 @@ Reduce端输入k-v类似下表：
 
 ### 多文件输入输出、及不同输入输出格式化类型
 #### 6.合并多个小文件（多文件输入输出、及不同输入输出格式化类型） 
+
+- [源码 mergeMultipleFiles](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/mergeMultipleFiles) 
 
 #### 需求分析
 
