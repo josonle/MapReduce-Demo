@@ -1,3 +1,9 @@
+### 前言
+
+不知道为什么GitHub中好像对目录索引支持不够好，下文目录中有的锚点不能跳转，我也没办法。这里我将下文放到了我CSDN的博客上，可以跳转目录，看起来也方便美观一点——[大数据之Hadoop学习——动手实战学习MapReduce编程实例](https://blog.csdn.net/lzw2016/article/details/84928495) 
+
+***
+
 ## 目录
 
 - [MapReduce编程实例](#MapReduce编程实例)
