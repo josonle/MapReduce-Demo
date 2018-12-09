@@ -607,8 +607,6 @@ Reduce端输入k-v类似下表：
 
 #### 解答思路
 
-![](http://dbaplus.cn/uploadfile/2017/0608/20170608112217594.jpg)
-
 ![](./images/简单模型.jpg)
 
 如图，MapReduce有一种简单模型，仅仅只有Mapper。我想初学者都可能遇到过吧，当Mapper输出k-v类型同Reducer输入k-v不同类型时，Reducer不会执行。
@@ -778,6 +776,8 @@ from t_order o join t_product p on o.pid = p.id
 
 ### 倒排索引
 
+- [【源码 InvertedIndex】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/InvertedIndex)
+
 索引（index）作为一种具备各种优势的数据结构，被大量应用在数据检索领域
 
 索引的优点
@@ -798,6 +798,10 @@ from t_order o join t_product p on o.pid = p.id
 - Map端对文件统计每个单词出现的次数，输出类似<{hadoop,file1},2>
 - Map端输出前要先进行Combine过程，最终输出类似< hadoop, file1:2>
 - Reduce端继续对相同单词进行合并，最终输出类似<hadoop, file1:2 file2:5>
+
+#### 数据文件
+
+随便找几篇英文文档就可以了
 
 ### TopN
 
