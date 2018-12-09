@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<comments>
+<row Id="1" PostId="3" Score="3" Text="One could also argue that having &quot;wordpress&quot; in a tag name is superfluous, since the whole site is about WordPress. But then the tag would be &quot;3&quot;, or &quot;v3&quot;, which is maybe too short." CreationDate="2010-08-11T20:06:43.057" UserId="8" />
+<row Id="2" PostId="3" Score="2" Text="I like [v3] more than a [wordpress-anything]. But does it really matter? Version tags do not describe the content (good enough), they are meta tags and should probably be avoided at all. http://blog.stackoverflow.com/2010/08/the-death-of-meta-tags/" CreationDate="2010-08-11T20:19:54.273" UserId="73" />
+<row Id="3" PostId="6" Text="I mean that from now on all questions will probably be posted here, so SOwill have less and less questions on the topic." CreationDate="2010-08-11T20:36:28.773" UserId="33" />
+<row Id="4" PostId="3" Text="While I agree that wordpress-3 tags should be avoided, they will be used as long as WP3 is new. Likewise, phpand php5 or ruby-on-rails and ruby-on-rails-3 tags are currently used on SO, so there's no point in fighting it ;)" CreationDate="2010-08-11T20:41:07.013" UserId="33" />
+<row Id="5" PostId="3" Text="@toscho: I don't see version tags as meta tags. If my question is &quot;Whatshould I keep in mind when upgrading to WordPress 3&quot;, then a version tag could be descriptive." CreationDate="2010-08-11T20:52:25.817" UserId="8" />
+<row Id="6" PostId="6" Text="Hadoop is very intresting." CreationDate="2010-08-11T21:00:00.000" UserId="33" />
+<row Id="7" PostId="6" Text="Spark is intresting too." CreationDate="2010-08-11T21:10:00.000" UserId="33" />
+</comments>
