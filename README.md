@@ -767,7 +767,7 @@ A-F	O,B,C,D,E,
 
 
 
-作业串联调度，并行调度，见[]
+作业串联调度，并行调度，见[源码 mutualFriend](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/mutualFriend) JobRun.java和JobControlRun.java
 
 ## MapReduce理论基础
 
@@ -935,6 +935,24 @@ t006 2512
 
 
 
+### 作业链
+
+将多种MR设计模式结合起来解决复杂的、多级的问题
+
+关键在于作业调度上，最简单的是顺序执行驱动程序。不过有几点需要注意：
+
+- 作业链中要及时清理确保之后不会再使用的中间文件
+
+- 还有要注意检测作业是否成功，是成功不是完成了。如果一个依赖的作业失败就应该退出作业链
+
+  
+
+  可以使用`job.submit()`代替`job.waitForCompletion()`并行启动多个作业，再通过非阻塞的`job.isComplete()`判断作业是否完成
+
+  也可以使用JobControl这类容器开启多线程监控、调度job
+
+  我这里有个例子，作业串联调度，并行调度，见[源码 mutualFriend](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/mutualFriend) JobRun.java和JobControlRun.java
+
 ### PeopleRank算法实现
 
 - [【源码 peoplerank】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/peoplerank)
@@ -951,9 +969,7 @@ t006 2512
 
 
 
-## 关于我
-
-你可以在途径找到我
+## 关于我你可以在途径找到我
 
  - [JonseonLe's Blog](http://josonle.github.io)
  - [CSDN博客 ](https://blog.csdn.net/lzw2016)
