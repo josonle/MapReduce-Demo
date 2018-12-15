@@ -698,17 +698,76 @@ from t_order o join t_product p on o.pid = p.id
 
 #### 需求分析
 
-下面是用户的好友关系列表，每一行代表一个用户和他的好友列表 【数据文件：friendsdata.txt】
+下面是用户的好友关系列表，每一行代表一个用户和他的好友列表，格式如下 【数据文件：friendsdata.txt】
 
-![](http://dbaplus.cn/uploadfile/2017/0608/20170608113106191.png)
+``` 
+A:B,C,D,F,E,O
+B:A,C,E,X
+...
+```
 
 **需要求出哪些人两两之间有共同好友，及他俩的共同好友都有谁**。
 
-例如从前2天记录中可以看出，C、E是A、B的共同好友，最终的形式如下：
+如可以看出，C、E是A、B的共同好友，最终的形式类似如下：
 
-![img](http://dbaplus.cn/uploadfile/2017/0608/20170608113114849.png)
+```
+A-B	E,C,
+A-C	D,F,
+A-D	E,F,
+A-E	D,B,C,
+A-F	O,B,C,D,E,
+...
+```
+
+#### 解答思路
+
+这道题也不难，你可能看到会想，一次Map直接遍历A的朋友列表，两次循环不就可以了吗？这样做只会得出部分共同好友，如`A:B,C,D,F,E,O 。B:A,C,E,X` 你无法获得A-B的共同好友C、E
+
+所以要两次MapReduce，第一次MR获取每个人的所有好友，第二次MR再遍历好友列表得出共同好友
+
+- DecomposeFriendsMapper第一次Map，将`A:B,C,D,F,E,O`打乱成`<B,A>,<C,A>`等
+- DecomposeFriendsReducer第一次Reduce，输出个人所有好友，`A	I,K,C,B,G,F,H,O,D`
+- MergeFriendsMapper第二次Map，循环遍历好友列表，对如`A B,C,E`遍历输出如`<B-C A>`
+- MergeFriendsReducer汇总共同好友
+
+这道题意义在于作业调度，以往所写的MR程序都是单一的，这次有两个作业，后者依赖前者作业的输出结果。你可以分词两个MR分布运行，也可以在一个驱动程序中完成两个作业的调度。
+
+这里贴部分代码
+
+```java
+	Job job1 = Job.getInstance(conf,"Decompose");
+
+    // ControlledJob作业控制容器
+    ControlledJob ctrJob1=new ControlledJob(conf);
+    ctrJob1.setJob(job1);// job1加入控制容器
+
+    Job job2 = Job.getInstance(conf, "Merge");
+
+    ControlledJob ctrJob2 = new ControlledJob(conf);
+    ctrJob2.setJob(job2);// job2加入作业控制容器
+
+    // 添加作业依赖，表明job2依赖job1执行
+    ctrJob2.addDependingJob(ctrJob1);
+
+    // 定义作业主控制容器，监控、调度job1，job2
+    JobControl jobControl=new JobControl("JobControl");
+    jobControl.addJob(ctrJob1);
+    jobControl.addJob(ctrJob2);
+    // 启动作业线程
+    Thread T=new Thread(jobControl);
+    T.start();
+    while(true){
+    if(jobControl.allFinished()){// 等待作业全部结束
+    System.out.println(jobControl.getSuccessfulJobList());// 打印成功job信息
+    jobControl.stop();
+    break;
+    }
+
+```
 
 
+
+作业串联调度，并行调度，见[]
 
 ## MapReduce理论基础
 
@@ -897,4 +956,4 @@ t006 2512
 你可以在途径找到我
 
  - [JonseonLe's Blog](http://josonle.github.io)
- - [CSDN博客 ]()
+ - [CSDN博客 ](https://blog.csdn.net/lzw2016)
