@@ -988,7 +988,7 @@ t006 2512
 
 ```
 
-
+- [【源码 weblog】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/weblog)
 
 ### PeopleRank算法实现
 
