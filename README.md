@@ -727,7 +727,7 @@ A-F	O,B,C,D,E,
 所以要两次MapReduce，第一次MR获取每个人的所有好友，第二次MR再遍历好友列表得出共同好友
 
 - DecomposeFriendsMapper第一次Map，将`A:B,C,D,F,E,O`打乱成`<B,A>,<C,A>`等
-- DecomposeFriendsReducer第一次Reduce，输出个人所有好友，`A	I,K,C,B,G,F,H,O,D`
+	 DecomposeFriendsReducer第一次Reduce，输出个人所有好友，`A	I,K,C,B,G,F,H,O,D`
 - MergeFriendsMapper第二次Map，循环遍历好友列表，对如`A B,C,E`遍历输出如`<B-C A>`
 - MergeFriendsReducer汇总共同好友
 
@@ -955,6 +955,40 @@ t006 2512
   也可以使用JobControl这类容器开启多线程监控、调度job
 
   我这里有个例子，作业串联调度，并行调度，见[源码 mutualFriend](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/mutualFriend) JobRun.java和JobControlRun.java
+
+
+
+### 项目
+
+### Web日志KPI指标分析
+
+```
+字段说明
+1、客户端IP
+2、空白（远程登录名称）
+3、空白（认证的远程用户）
+4、请求时间
+5、时区（UTC）
+6、请求方法
+7、请求资源
+8、http协议
+9、状态码
+10、发送字节数
+
+需求
+1. 计算网站全天产生的流量
+
+2. 将所有状态为404的记录输出到文件：missed
+
+3. 找到访问量最高的10个页面（按访问量降序输出）
+
+4. 计算当天访问该网站的独立IP数
+
+5. 统计网站每分钟的访问量并找出峰值
+
+```
+
+
 
 ### PeopleRank算法实现
 
