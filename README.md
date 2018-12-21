@@ -12,7 +12,7 @@
 
 ## 目录
 
-- [MapReduce编程实例](#MapReduce编程实例)
+- MapReduce编程实例
   + [1.自定义对象序列化](#1.自定义对象序列化)
   + [2.数据去重](#2.数据去重)
   + [3.数据排序、二次排序 ](#3.数据排序、二次排序)
@@ -25,7 +25,7 @@
   + [9.计算出用户间的共同好友](#9.**计算出用户间的共同好友**)
 - [MapReduce理论基础](#MapReduce理论基础)
 - [Hadoop、Spark学习路线及资源收纳](#Hadoop、Spark学习路线及资源收纳)
-- [MapReduce实战系统学习流程](#MapReduce实战系统学习流程)
+- MapReduce实战系统学习流程
   + [词频统计](#词频统计)
   + [数据去重](#数据去重)
   + [数据排序](#数据排序)
@@ -38,9 +38,11 @@
   + [多表关联](#多表关联)
   + [倒排索引](#倒排索引)
   + [TopN](#TopN)
-  + [作业链](#作业链) 
-  + [PeopleRank算法实现](#PeopleRank算法实现)
-  + [推荐系统——协同过滤算法实现](#推荐系统——协同过滤算法实现)
+  + [作业链](#作业链)
+- 项目
+  - [Web日志KPI指标分析](#Web日志KPI指标分析)
+  - [PeopleRank算法实现](#PeopleRank算法实现)
+  - [推荐系统——基于物品的协同过滤算法实现](#推荐系统——基于物品的协同过滤算法实现)
 - [数据](#数据)
 - [关于我](#关于我)
 
@@ -958,7 +960,7 @@ t006 2512
 
 
 
-### 项目
+## 项目
 
 ### Web日志KPI指标分析
 
@@ -994,7 +996,7 @@ t006 2512
 
 - [【源码 peoplerank】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/peoplerank)
 
-### 推荐系统——协同过滤算法实现
+### 推荐系统——基于物品的协同过滤算法实现
 
 - [【源码 ItemCF算法 】](https://github.com/josonle/MapReduce-Demo/tree/master/src/main/java/ssdut/training/mapreduce/itemcf)
 
