@@ -1008,7 +1008,9 @@ t006 2512
 
 
 
-## 关于我你可以在途径找到我
+## 关于我，你可以在以下途径找到我
 
  - [JonseonLe's Blog](http://josonle.github.io)
  - [CSDN博客 ](https://blog.csdn.net/lzw2016)
+ - 邮箱：3092312003@qq.com
+
