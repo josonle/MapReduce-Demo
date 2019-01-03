@@ -462,10 +462,11 @@ public static class PhoneNumberPartitioner extends Partitioner<Text, FlowWritabl
 		public int getPartition(Text key, FlowWritable value, int numPartitions) {
 			String num = key.toString().substring(0, 3);
 			// 借助HashMap返回不同手机段对应的分区号
+             return numberDict.getOrDefault(num, 4);
 			// 也可以直接通过if判断，如
-			// 根据年份对数据进行分区，返回不同分区号
+			// 根据手机段对数据进行分区，返回不同分区号
 			// if (key.toString().startsWith("133")) return 0 % numPartitions;
-			return numberDict.getOrDefault(num, 4);
+             // if (key.toString().startsWith("135")) return 1 % numPartitions;
 		}
 	}
 ```

@@ -53,7 +53,7 @@ public class DatePartition2 {
 				case "08": return 8;
 				case "09": return 9;
 				case "10": return 10;
-				case "11": return 1;
+				case "11": return 11;
 				case "12": return 12;
 				default  : return 0;
 			}
