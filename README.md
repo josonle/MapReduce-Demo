@@ -280,7 +280,7 @@ MapReduce是默认会对key进行升序排序的，可以利用这一点实现�
   - 可以利用Shuffle默认对key排序的规则；
   - 自定义继承WritableComparator的排序类，实现compare方法
 - 二次排序
-  - 实现可序列化的比较类WritableComparable<T>，并实现compareTo方法（同样可指定升序降序）
+  - 实现可序列化的比较类`WritableComparable<T>`，并实现compareTo方法（同样可指定升序降序）
 
 ##### 日期按计数升序排序
 
@@ -348,7 +348,7 @@ public static class MySortKey implements WritableComparable<MySortKey> {
 		private int downFlow;
 		private int sumFlow;
 
-		public void FlowSort(int up, int down) {
+		public FlowSort(int up, int down) {
 			upFlow = up;
 			downFlow = down;
 			sumFlow = up + down;
@@ -445,7 +445,7 @@ public static class MySortKey implements WritableComparable<MySortKey> {
 
 挺简单的，看过我之前结合源码解读MapReduce过程的话，就知道这其实就是一个分区的问题。定义自己的分区规则，一个分区会对应一个reduce，会输出到一个文件。
 
-而你需要做的就是基础partitioner类，并实现getPartition方法，其余过程同第一个例子
+而你需要做的就是继承partitioner类，并实现getPartition方法，其余过程同第一个例子
 
 ```java
 // 自定义分区类
@@ -478,7 +478,7 @@ job.setPartitionerClass(PhoneNumberPartitioner.class);
 job.setNumReduceTasks(4);
 ```
 
-![](C:\Users\j\Desktop\分区.jpg)
+![](./images/分区.jpg)
 
 增加ReduceTask数量可看到生成的文件数也增加了，不过文件内容为空
 
@@ -570,7 +570,7 @@ Reduce端输入k-v类似下表：
 
 	}
 // 是分组不是分区，分组是组内定义一些规则由reduce去处理，分区是由多个Reduce处理，写到不同文件中
-// 自定义分组类
+// 自定义分组比较类
 	public static class GroupComparator extends WritableComparator {
 		public GroupComparator() {
 			// TODO Auto-generated constructor stub
