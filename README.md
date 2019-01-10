@@ -574,7 +574,7 @@ Reduce端输入k-v类似下表：
 // 自定义分组比较类
 	public static class GroupComparator extends WritableComparator {
 		public GroupComparator() {
-			// TODO Auto-generated constructor stub
+			// 注册比较方法         
 			super(Pair.class, true);
 		}
 		// Mapper端会对Pair排序，之后分组的规则是对Pair中的order_id比较
